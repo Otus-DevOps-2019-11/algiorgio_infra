@@ -12,7 +12,7 @@ someinternalhost_IP = 10.132.0.6
 
 #### Конфигурация Test App
 
-testapp_IP = 35.242.243.104
+testapp_IP = 35.242.235.224
 testapp_port = 9292
 
 #### Скрипт для создания инстанса приложения
