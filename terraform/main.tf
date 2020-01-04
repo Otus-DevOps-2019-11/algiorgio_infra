@@ -8,20 +8,20 @@ provider "google" {
   version = "2.15.0"
   # ID проекта
   project = var.project
-  region = var.region
+  region  = var.region
 }
 
 resource "google_compute_instance" "app" {
-  name = "reddit-app"
+  name         = "reddit-app"
   machine_type = "g1-small"
-  zone = "europe-west1-b"
-  tags = ["reddit-app"]
+  zone         = var.zone
+  tags         = ["reddit-app"]
   boot_disk {
     initialize_params {
       image = var.disk_image
     }
   }
-  
+
   network_interface {
     network = "default"
     access_config {}
@@ -31,17 +31,17 @@ resource "google_compute_instance" "app" {
     # путь до публичного ключа
     ssh-keys = "appuser:${file(var.public_key_path)}"
   }
-  
+
   connection {
-    type = "ssh"
-    host = self.network_interface[0].access_config[0].nat_ip
-    user = "appuser"
-    agent = false
-    private_key = file("~/.ssh/appuser")
+    type        = "ssh"
+    host        = self.network_interface[0].access_config[0].nat_ip
+    user        = "appuser"
+    agent       = false
+    private_key = file(var.private_key_path)
   }
 
   provisioner "file" {
-    source = "files/puma.service"
+    source      = "files/puma.service"
     destination = "/tmp/puma.service"
   }
 
@@ -57,7 +57,7 @@ resource "google_compute_firewall" "firewall_puma" {
   # Какой доступ разрешить
   allow {
     protocol = "tcp"
-    ports = ["9292"]
+    ports    = ["9292"]
   }
   # Каким адресам разрешаем доступ
   source_ranges = ["0.0.0.0/0"]
