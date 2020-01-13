@@ -5,9 +5,10 @@ variable region {
   description = "Region"
   default     = "europe-west1"
 }
-variable public_key_path {
+variable appuser_public_key_path {
   description = "Path to the public key used for ssh access"
 }
+${file(var.appuser_public_key_path)}
 variable private_key_path {
   description = "Path to the private key used for provisioners connections"
 }

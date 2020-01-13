@@ -1,55 +1,23 @@
-# algiorgio_infra
+## algiorgio_infra 
+
 algiorgio Infra repository
 
+------------
 
-#### Создание правила для файервола
-Команда gcloud для создания правила:
-
-
-```
-gcloud compute firewall-rules create default-puma-server \
-      --allow tcp:9292 \
-      --source-ranges="0.0.0.0/0" \
-      --target-tags=puma-server 
-```
-      
-      
-### Образы системы
-
-Для создания образов проекта используется packer. В проекте создано два параметризированных образа:
-- fry-образ **packer/ubuntu16.json**: содержит описание образа VM, загрузку и запуск приложения необходимо производить вручную
-- backed-образ **packer/immutable.json**: содержит описание образа VM, после установки которого приложение автоматически работает на развернутой машине
-- **packer/variables.json** - переменные для шаблона образа
-
-Операции, производимые на развернутом образе виртуальной машины находятся в директории **packer/scripts**.
-
-Файлы, связанные с созданием рабочего приложения на развернутом образе виртуальной машины находятся в директории **packer/files**.
-
-#### Создание виртуальной машины
- 1) Для создания fry-образа в каталоге packer необходимо выолнить команду:
-
-
-    packer build -var-file variables.json ubuntu16.json
-
-после чего, на основе полученного образа, создать инстанс виртуальной машины.
-
-2) Для создания backed-образа в каталоге packer необходимо выолнить команду:
-
-    packer build -var-file variables.json ubuntu16.json
-после чего исполнить скрипт следующего содержания:
-
-```
-    gcloud beta compute instances create reddit-full \
-        --project=infra-262812 \
-        --image=reddit-full-1577957275 \
-        --image-project=infra-262812 \
-        --zone europe-west3-a \
-        --machine-type=g1-small \
-        --subnet=default \
-        --tags puma-server \
-        --restart-on-failure \
-        --boot-disk-size=10GB \
-        --boot-disk-type=pd-ssd
-```
-
-расположенный по адресу **config-scripts/create-reddit-vm.sh**
+#### terraform-1. этапы работ:
+1. удалены ssh-ключи из раздела Метаданные в GCP
+2. создана ветка terraform-1
+3. terraform установлен и проинициализирован на рабочей машине
+4. создано описание инфраструктуры **main.tf**, которое содержит в себе следующие данные:
+ - версия terraform
+ - провайдер
+  - ресурс "google_compute_instance"
+  - ресурс "google_compute_firewall"
+5. в main.tf добавлен ssh-ключ пользователя
+6. создан файл **outputs.tf**, который определяет, какие переменные необходимо отображать после применения конфигурации
+7. с целью автоматической установки приложения на вновь созданном инстансе, в ресурс google_compute_instance добавляем provisioner'ы:
+  - file - файл для создания daemon'а приложения на VM
+  - remote-exec - bash-скрипт для загрузки приложения из репозитория
+8. создан файл **variables.tf ** - для параметризации переменные конфигурации
+9. создан файл **terraform.tfvars** - для определения переменных, используемых в variables.tf.
+10. Добавлены дополнительные ssh-ключи
