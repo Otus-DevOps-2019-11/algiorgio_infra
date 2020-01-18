@@ -4,7 +4,7 @@ algiorgio Infra repository
 
 ------------
 
-#### terraform-1. этапы работ:
+#### terraform-2. этапы работ:
 1. создана ветка terraform-2
 2. импортирована инфраструктура в terraform
 3. задан IP-адрес для инстанса в виде ресурса google_compute_address
