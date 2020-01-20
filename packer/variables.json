@@ -1,0 +1,9 @@
+{
+    "project_id": "infra-262812",
+    "source_image_family": "ubuntu-1604-lts",
+    "image_description": "Baked Reddit Image",
+    "disk_size": "10",
+    "disk_type": "pd-ssd",
+    "network": "default",
+    "tags": "puma-server"
+}
