@@ -3,9 +3,7 @@ import os
 import testinfra.utils.ansible_runner
 
 testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
-    os.environ['MOLECULE_INVENTORY_FILE']
-).get_hosts('all')
-
+    os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('all')
 
 # check if MongoDB is enabled and running
 def test_mongo_running_and_enabled(host):
@@ -20,8 +18,6 @@ def test_config_file(host):
     assert config_file.is_file
 
 
-# check if DB is listening specific port
 def test_port(host):
     server = host.addr("0.0.0.0")
-    assert server.port(27017)
- 
+    assert server.port(21017)

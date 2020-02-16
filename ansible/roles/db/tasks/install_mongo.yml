@@ -1,8 +1,8 @@
 ---
-- name: Add APT key
+- name: Add apt key for Mongo DB
   apt_key:
-    id: "EA312927"
-    keyserver: keyserver.ubuntu.com
+    url: https://www.mongodb.org/static/pgp/server-3.2.asc
+    state: present
   tags: install
 
 - name: Add APT repository

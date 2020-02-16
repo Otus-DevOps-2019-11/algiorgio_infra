@@ -1,28 +1,7 @@
 ---
-- name: Install DB
+- name: Install MongoDB
   hosts: all
   become: true
 
   roles:
     - db
-
-  # tasks:
-  # - name: apt-key
-  #   apt_key:
-  #     url: https://www.mongodb.org/static/pgp/server-3.2.asc
-  #     state: present
-
-  # - name: append mongo repository
-  #   apt_repository:
-  #     repo: deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse
-  #     state: present
-
-  # - name: Install mongodb
-  #   apt:
-  #     name: mongodb-org
-  #     state: present
-
-  # - name: Enable Mongod service
-  #   systemd:
-  #     name: mongod
-  #     enabled: yes
