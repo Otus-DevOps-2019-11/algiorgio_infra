@@ -1,3 +1,5 @@
+*.tmp
+packer/variables.json
 *.tfstate
 *.tfstate.*.backup
 *.tfstate.backup
@@ -5,10 +7,16 @@
 .terraform/
 *.retry
 jdauphant.nginx
-vault.key
-vagrant/
+
+# Vagrant & molecule
+.vagrant/
 *.log
 *.pyc
 .molecule
 .cache
 .pytest_cache
+venv
+ansible/roles/db/molecule
+.yamllint
+Pipfile
+db_old
