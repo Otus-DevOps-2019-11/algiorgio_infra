@@ -1,13 +1,8 @@
 ---
-- name: Intall App
+- name: Install App
   hosts: all
   become: true
-  tasks:
-  - name: Install packages ruby, rubygems, build-essential
-    apt:
-      name: '{{ item }}'
-      state: present
-    with_items:
-      - ruby-full
-      - ruby-bundler
-      - build-essential
+
+  roles:
+    - app
+    - jdauphant.nginx

@@ -1,7 +1,6 @@
 ---
-- name: Install MongoDB
+- name: Converge
   hosts: all
   become: true
-
   roles:
-    - db
+    - role: db
